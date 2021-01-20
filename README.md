@@ -1,4 +1,4 @@
-# SmartChargeV2G-RC
+# SmartChargeV2G-RC (Final Year Project)
 
 A Smartcharging Project integrated with a Robotic Car to illustrate a concept of an Electric Vehicle connected to a Grid interface for smart charging. 
 
