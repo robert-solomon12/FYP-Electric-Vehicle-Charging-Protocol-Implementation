@@ -11,6 +11,9 @@ The Robotic Car consists of a Raspberry Pi acting as the main processor of the s
 
 # Main Features include:
 
+Vehicle Control over TCP:
+
+
 Line Tracking:
 
 
