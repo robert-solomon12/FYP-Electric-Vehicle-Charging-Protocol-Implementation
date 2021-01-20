@@ -9,7 +9,7 @@ The Electric Vehicle Supply Equipment (EVSE) is run in Vector's CANoe Software a
 
 The Robotic Car consists of a Raspberry Pi acting as the main processor of the system. The role of the Pi is to handle both the data being sent to and received from the EVSE. It runs a C program which helps to encode and decode the messages. The Pi is also responsible for receiving input requests from CANoe over TCP to move around and perform certain functions. 
 
-Main Features include:
+# Main Features include:
 
 Line Tracking:
 
