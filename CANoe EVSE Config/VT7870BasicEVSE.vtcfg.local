@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<modules>
+
+  <module name="EVSE_VT7870" offline="true" slave="0"/>
+
+</modules>
