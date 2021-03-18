@@ -13,7 +13,7 @@ def init():
     gpio.setup(15, gpio.OUT)
 
 
-def accelerate():
+def accelerate(tf):
     init()
     print("Accelerating!")
     gpio.output(7, False)

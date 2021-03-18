@@ -31,7 +31,11 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
+#include <sys/socket.h> 
+#include <netinet/in.h> 
 #include <string.h>
+#define PORT 8080 
+#define BUFF_SIZE 10000
 
 #include "EXITypes.h"
 
@@ -2508,65 +2512,110 @@ static int xmldsig_test() {
 #endif /* DEPLOY_XMLDSIG_CODEC == SUPPORT_YES */
 
 
-int main_example(int argc, char *argv[]) {
-	int errn = 0;
-
-	printf("+++ Start application handshake protocol example +++\n\n");
-	errn = appHandshake();
-	printf("+++ Terminate application handshake protocol example with errn = %d +++\n\n", errn);
-
-	if(errn != 0) {
-		printf("\n\nHandshake error %d!\n", errn);
-		return errn;
-	}
 
 
-#if DEPLOY_ISO1_CODEC == SUPPORT_YES
-	printf("+++ Start V2G client / service example for charging (ISO1) +++\n\n");
-	errn = charging1();
-	printf("\n+++Terminate V2G Client / Service example for charging with errn = %d +++\n\n", errn);
-	if(errn != 0) {
-		printf("\n\ncharging error %d!\n", errn);
-		return errn;
-	}
-#endif /* DEPLOY_ISO1_CODEC == SUPPORT_YES */
 
+int handleRequest()
+{
+	
+	int errn =0;
+	
 
-#if DEPLOY_ISO2_CODEC == SUPPORT_YES
-	printf("+++ Start V2G client / service example for charging (ISO2) +++\n\n");
-	errn = charging2();
-	printf("\n+++Terminate V2G Client / Service example for charging with errn = %d +++\n\n", errn);
-	if(errn != 0) {
-		printf("\n\ncharging error %d!\n", errn);
-		return errn;
-	}
-#endif /* DEPLOY_ISO2_CODEC == SUPPORT_YES */
-
-
-#if DEPLOY_DIN_CODEC == SUPPORT_YES
-	printf("+++ Start simple DIN test +++\n");
-	errn = din_test();
-	printf("+++ Terminate simple DIN test with errn = %d +++\n\n", errn);
-	if(errn != 0) {
-		printf("\nDIN test error %d!\n", errn);
-		return errn;
-	}
-#endif /* DEPLOY_DIN_CODEC == SUPPORT_YES */
-
-#if DEPLOY_XMLDSIG_CODEC == SUPPORT_YES
-#if DEPLOY_ISO_CODEC_FRAGMENT == SUPPORT_YES
-	printf("+++ Start simple XMLDSIG test +++\n");
-	errn = xmldsig_test();
-	printf("+++ Terminate simple XMLDSIG test with errn = %d +++\n\n", errn);
-	if(errn != 0) {
-		printf("\nXMLDSIG test error %d!\n", errn);
-		return errn;
-	}
-#endif /* DEPLOY_ISO_CODEC_FRAGMENT */
-#endif /* DEPLOY_XMLDSIG_CODEC == SUPPORT_YES */
-
-
+	printf("HandleRequest function ....\n");
+	
+	
 	return errn;
+	
+	}
+
+
+
+
+
+int main_example(int argc, char *argv[]) {
+	
+	
+	int errn = 0;
+	
+	//printf("+++++++++++ Setting up OpenV2G Server ++++++++++\n\n");
+	
+	int server_fd, new_socket, valread; 
+	struct sockaddr_in address; 
+	int opt = 1;
+	int addrlen = sizeof(address); 
+	char buffer[BUFF_SIZE]; 
+	
+	
+	// Creating socket file descriptor 
+	if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) 
+	{ 
+		perror("socket failed"); 
+		exit(EXIT_FAILURE); 
+	}  
+	// Forcefully attaching socket to the port 8080 
+	if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, 
+												&opt, sizeof(opt))) 
+	{ 
+		perror("setsockopt"); 
+		exit(EXIT_FAILURE); 
+	}     
+	address.sin_family = AF_INET; 
+	address.sin_addr.s_addr = INADDR_ANY; 
+	address.sin_port = htons( PORT ); 
+	
+	// Forcefully att aching socket to the port 8080 
+	if (bind(server_fd, (struct sockaddr *)&address, 
+								sizeof(address))<0) 
+	{ 
+		perror("bind failed"); 
+		exit(EXIT_FAILURE); 
+	}
+	puts("Binding done");
+	
+	
+	//Listening for connections here ...
+	if  (errn != 0) {
+		printf("\n\n Listening Failed ..... %d!\n", errn);
+		//perror("listen error..... %d!\n", errn);
+		exit(EXIT_FAILURE);
+	}
+	
+	listen(server_fd, 3);
+	printf("OpenV2G Server listening....\n");
+		
+	new_socket = accept(server_fd, (struct sockaddr *)&address, 
+					(socklen_t*)&addrlen);
+					
+	if (new_socket < 0)
+	{ 
+		perror("accept"); 
+		exit(EXIT_FAILURE); 
+	}	
+	puts("Connection accepted....\n");
+		
+	
+	while(errn=0)
+	{		
+		//int buf_res = 
+		
+		valread = read(new_socket, buffer, BUFF_SIZE); //10000
+		printf("Current buffer: %s\n",buffer ); 
+		
+		
+	//calls request handling function
+	
+		handleRequest();
+		
+	//serialize it in the request function ...
+			
+	//send back buffer to python ...
+	
+	}
+		//close(new_socket);
+	//	return errn;
+			//send back buffer to python ...
+
+
 }
 
 
