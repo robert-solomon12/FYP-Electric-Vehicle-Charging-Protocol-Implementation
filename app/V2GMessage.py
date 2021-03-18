@@ -3,7 +3,7 @@ import socket, pickle
 import time
 
 LOCALHOST = '127.0.0.1'  # The server's hostname or IP address
-LOCALPORT = 8080        # The port used by the server
+LOCALPORT = 2300       # The port used by the server
 GLOBALHOST = 'fe80::292f:2eda:aa83:cf63'  # The server's hostname or IP address
 GLOBALPORT1 = 15118 
 GLOBALPORT2 = 15443
@@ -73,9 +73,9 @@ class SessionSetupReq(V2GMessage):
         
 print('V2G Message Details: ')
 
-#msg1 = SessionSetupReq('0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0','0x2, 0x0, 0x0, 0x0, 0x0, 0x1')
+msg1 = SessionSetupReq([0x01,0x00,0x00, 0x00,0x00,0x00,0x00,0x00,0x00],[0x02,0x00,0x00,0x00,0x00,0x01])
 
-msg1 = SessionSetupReq('100000000','020001')    
+#msg1 = SessionSetupReq('100000000','020001')    
 
 
 time.sleep(2)
@@ -104,74 +104,13 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     print('Connected to V2G Server!')
     time.sleep(1)
     print('Sending Session Setup V2G Message!')
-    time.sleep(2)
-    s.sendall(b) #uffer.encode('utf-8'))
-    #print('hex version: ',b)
     time.sleep(1)
-
+    s.sendall(b) 
+    time.sleep(2)
 
     print('Sent Session Setup V2G Message!')
     data = s.recv(1024)
     
     print('Received from OpenV2G Server: ', repr(data))
-
-
-# Then send the data above to the CANoe to get response...
-
-
-
-#class SessionSetupRsp(V2GMessage):
-#    def __init__(self,sessionId):
-#        super().__init__(sessionId)
-#        self.evccid = evccid
-# tcp connections here ...
-
-
-
-#class ServiceDiscoveryReq(V2GMessage):
-    
-#    def __init__(self,sessionId,evccid):
-#        super().__init__(sessionId)
-#        self.serviceScope = serviceScope
-#        self.serviceCategory = serviceCategory
-
-#print('V2G Message Details: ')
-#msg1 = ServiceDiscoveryReq([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],20)
-
-
-# tcp connections here ...
-
-
-#class ServiceDetailReq(V2GMessage):
-    
-#    def __init__(self,sessionId,evccid):
-#        super().__init__(sessionId)
-#        self.serviceID = serviceID
-
-#print('V2G Message Details: ')
-#msg = ServiceDetailReq([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],20)
-
-
-
-
-
-# class SessionSetupResp(V2GMessage):
-
-#      def __init__(self,sessionId,responseCode,evseid,eVseTimestamp):
-
-#         super().__init__(sessionId)
-
-#         self.responseCode = responseCode
-#         self.evseid = evseid
-#         self.eVseTimestamp = eVseTimestamp
-
-# msg1res = SessionSetupReq(data)
-
-
-
-
-# send parameters over to Canoe
-
-
-    # buffer(sessid,evid)
-
+    #time.sleep(2)
+    #s.close()

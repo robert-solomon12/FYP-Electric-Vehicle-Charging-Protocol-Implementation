@@ -66,10 +66,10 @@
 
 /* Activate support for ISO2 */
 #include "iso2EXIDatatypes.h"
-#if DEPLOY_ISO2_CODEC == SUPPORT_YES
+//#if DEPLOY_ISO2_CODEC == SUPPORT_YES
 #include "iso2EXIDatatypesEncoder.h"
 #include "iso2EXIDatatypesDecoder.h"
-#endif /* DEPLOY_ISO2_CODEC == SUPPORT_YES */
+//#endif /* DEPLOY_ISO2_CODEC == SUPPORT_YES */
 
 #include "v2gtp.h"
 
@@ -789,7 +789,6 @@ static int request_response2(struct iso2EXIDocument* exiIn, struct iso2EXIDocume
 
 	return errn;
 }
-
 
 static int charging2()
 {
@@ -2515,22 +2514,101 @@ static int xmldsig_test() {
 
 
 
-int handleRequest()
+int requestHandler(char *buffer)
 {
+	struct iso2EXIDocument exiIn;
+		
 	
-	int errn =0;
+	int errn = 0;
+	int i, j;
+
+	bitstream_t stream1;
+
+	size_t pos1;
+	
+	
+	stream1.size = BUFFER_SIZE;
+	stream1.data = buffer1;
+	stream1.pos = &pos1;
+	
 	
 
-	printf("HandleRequest function ....\n");
 	
+	//struct iso2EXIDocument exiOut;
 	
-	return errn;
-	
+	int MSG_SessionSetupReq = 1;
+	printf("Request function called....\n");
+	if ((buffer[0] =! MSG_SessionSetupReq))
+	{
+		perror("Not a request message!\n");
 	}
+	
+	/* setup header information */
+		init_iso2EXIDocument(&exiIn);
+		exiIn.V2G_Message_isUsed = 1u;
+		init_iso2MessageHeaderType(&exiIn.V2G_Message.Header); 
+		exiIn.V2G_Message.Header.SessionID.bytes[0] = buffer[1]; /* sessionID is always '0' at the beginning (the response contains the valid sessionID)*/
+		exiIn.V2G_Message.Header.SessionID.bytes[1] = buffer[2];
+		exiIn.V2G_Message.Header.SessionID.bytes[2] = buffer[3];
+		exiIn.V2G_Message.Header.SessionID.bytes[3] = buffer[4];
+		exiIn.V2G_Message.Header.SessionID.bytes[4] = buffer[5];
+		exiIn.V2G_Message.Header.SessionID.bytes[5] = buffer[6];
+		exiIn.V2G_Message.Header.SessionID.bytes[6] = buffer[7];
+		exiIn.V2G_Message.Header.SessionID.bytes[7] = buffer[8];
+		exiIn.V2G_Message.Header.SessionID.bytes[8] = buffer[9];
+		exiIn.V2G_Message.Header.SessionID.bytesLen = 9;
+		exiIn.V2G_Message.Header.Signature_isUsed = 0u;
+			
+				
+		/************************
+		 * sessionSetup *
+		 ************************/
+		 /* setting up body information */
+		init_iso2BodyType(&exiIn.V2G_Message.Body);
+		exiIn.V2G_Message.Body.SessionSetupReq_isUsed = 1u;
+		init_iso2SessionSetupReqType(&exiIn.V2G_Message.Body.SessionSetupReq);
+		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytes[9] = buffer[10];
+		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytes[10] = buffer[11];
+		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytes[11] = buffer[12];
+		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytes[12] = buffer[13];
+		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytes[13] = buffer[14];
+		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytes[14] = buffer[15];
+		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytesLen = 6;
+		
+		
+		/* EV side calling serialize function */
+		errn = serialize2EXI2Stream(exiIn, &stream1);
+		
+		int i;	
+		//looping from index 1 to pos1 which is length of data in memory
+		for(i=0;  i<(*(stream1.pos));i++)
+		{
+		//copying the stream1 data pointer (buffer1) into the tcp buffer....
+			buffer[i] = buffer1[i];
+		}
+		
+		
+		//printing buffer array in to hex form..
+		printf("Copied buffer stream1 data array is:\n");
+		for(i=0;i<(*(stream1.pos));i++)
+		{
+			printf("%02X ",buffer[i]);
+		    printf("\n");
+		    
+		}
+		
+		return errn;
+	
+		}
+	
 
 
 
 
+
+
+
+//main start of my routine below 
 
 int main_example(int argc, char *argv[]) {
 	
@@ -2543,9 +2621,12 @@ int main_example(int argc, char *argv[]) {
 	struct sockaddr_in address; 
 	int opt = 1;
 	int addrlen = sizeof(address); 
-	char buffer[BUFF_SIZE]; 
+	char buffer[BUFF_SIZE];
 	
 	
+	errn = charging2();
+	
+		
 	// Creating socket file descriptor 
 	if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) 
 	{ 
@@ -2594,28 +2675,49 @@ int main_example(int argc, char *argv[]) {
 	puts("Connection accepted....\n");
 		
 	
-	while(errn=0)
-	{		
-		//int buf_res = 
+	//int c = 1;
+	while(1)
+	{
+		
+		
 		
 		valread = read(new_socket, buffer, BUFF_SIZE); //10000
-		printf("Current buffer: %s\n",buffer ); 
+		printf("Current buffer: %s\n", buffer );
 		
 		
-	//calls request handling function
-	
-		handleRequest();
-		
-	//serialize it in the request function ...
-			
-	//send back buffer to python ...
-	
+		errn = requestHandler(buffer);
 	}
-		//close(new_socket);
-	//	return errn;
-			//send back buffer to python ...
-
-
+	
+	return errn;
 }
+		
+		
+		
+	
+		
+		
+		
+		
+		
+		
+	//dereferencing the pointer stream1 
+	//printf("Address stored in pointer %d", *&stream1.pos);
+	
+	
+	// error check if position of stream1.pos in memory is equal to size of buffer defined as 15
+	//if((*stream1.pos) != sizeOfBuffer) {
+	//	errn = -1;
+	//	printf("Buffer in memory stream length does not match !\n");
+	//	return errn;
+	//} else {
+	//	for(i=0; i<buffer1size; i++) {
+	//		if(stream1.data[i] != sizeOfBuffer[i]) {
+	//			errn = -1;
+	//			printf("Buffer in memory stream does not match at position %d !\n", i);
+	//			return errn;
+	//		}
+	//	}
+
+
 
 
