@@ -2514,7 +2514,7 @@ static int xmldsig_test() {
 
 
 
-int requestHandler(char *buffer)
+int requestHandler(char *buffer, int *new_socket)
 {
 	struct iso2EXIDocument exiIn;
 		
@@ -2567,19 +2567,20 @@ int requestHandler(char *buffer)
 		init_iso2BodyType(&exiIn.V2G_Message.Body);
 		exiIn.V2G_Message.Body.SessionSetupReq_isUsed = 1u;
 		init_iso2SessionSetupReqType(&exiIn.V2G_Message.Body.SessionSetupReq);
-		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytes[9] = buffer[10];
-		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytes[10] = buffer[11];
-		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytes[11] = buffer[12];
-		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytes[12] = buffer[13];
-		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytes[13] = buffer[14];
-		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytes[14] = buffer[15];
+		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytes[0] = buffer[10];
+		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytes[1] = buffer[11];
+		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytes[2] = buffer[12];
+		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytes[3] = buffer[13];
+		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytes[4] = buffer[14];
+		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytes[5] = buffer[15];
 		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytesLen = 6;
 		
 		
-		/* EV side calling serialize function */
-		errn = serialize2EXI2Stream(exiIn, &stream1);
 		
-		int i;	
+		/* EV side calling serialize function */
+		errn = serialize2EXI2Stream(&exiIn, &stream1);
+		
+		
 		//looping from index 1 to pos1 which is length of data in memory
 		for(i=0;  i<(*(stream1.pos));i++)
 		{
@@ -2597,9 +2598,19 @@ int requestHandler(char *buffer)
 		    
 		}
 		
-		return errn;
-	
+		//int res = 
+		send(new_socket, buffer, strlen(buffer), 0 );
+		/*printf("RES: %d", res);
+		//if (res < 0)
+		//{
+			perror("Send");
+			break;
 		}
+		*/
+		
+		//close(new_socket);
+		return errn;	
+}
 	
 
 
@@ -2681,11 +2692,11 @@ int main_example(int argc, char *argv[]) {
 		
 		
 		
-		valread = read(new_socket, buffer, BUFF_SIZE); //10000
+		valread = recv(new_socket, buffer, BUFF_SIZE, 0);
 		printf("Current buffer: %s\n", buffer );
 		
 		
-		errn = requestHandler(buffer);
+		errn = requestHandler(buffer, new_socket);
 	}
 	
 	return errn;

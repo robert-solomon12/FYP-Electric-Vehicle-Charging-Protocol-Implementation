@@ -9,10 +9,10 @@ gpio.setup(11, gpio.OUT)
 gpio.setup(13, gpio.OUT)
 gpio.setup(15, gpio.OUT)
 
-gpio.output(7, True)
-gpio.output(11, True)
-gpio.output(13, True)
-gpio.output(15, False)
+gpio.output(7, False) #Motor 1
+gpio.output(11, False) #Motor 2
+gpio.output(13, True) #Motor 3
+gpio.output(15, False) #Motor 4
 time.sleep(0.5)
 
 gpio.cleanup()

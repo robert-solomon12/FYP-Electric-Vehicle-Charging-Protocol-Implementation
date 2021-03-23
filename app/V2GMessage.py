@@ -1,9 +1,9 @@
 # from Socket import *
-import socket, pickle
+import socket
 import time
 
 LOCALHOST = '127.0.0.1'  # The server's hostname or IP address
-LOCALPORT = 2300       # The port used by the server
+LOCALPORT = 8080       # The port used by the server
 GLOBALHOST = 'fe80::292f:2eda:aa83:cf63'  # The server's hostname or IP address
 GLOBALPORT1 = 15118 
 GLOBALPORT2 = 15443
@@ -73,9 +73,9 @@ class SessionSetupReq(V2GMessage):
         
 print('V2G Message Details: ')
 
-msg1 = SessionSetupReq([0x01,0x00,0x00, 0x00,0x00,0x00,0x00,0x00,0x00],[0x02,0x00,0x00,0x00,0x00,0x01])
+#msg1 = SessionSetupReq([0x01,0x00,0x00, 0x00,0x00,0x00,0x00,0x00,0x00],[0x02,0x00,0x00,0x00,0x00,0x01])
 
-#msg1 = SessionSetupReq('100000000','020001')    
+msg1 = SessionSetupReq('100000000','020001')    
 
 
 time.sleep(2)
@@ -103,14 +103,32 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((LOCALHOST, LOCALPORT))
     print('Connected to V2G Server!')
     time.sleep(1)
-    print('Sending Session Setup V2G Message!')
+    print('Sending Session Setup Message to OpenV2G!')
     time.sleep(1)
     s.sendall(b) 
     time.sleep(2)
-
-    print('Sent Session Setup V2G Message!')
-    data = s.recv(1024)
     
-    print('Received from OpenV2G Server: ', repr(data))
+    data1 = s.recv(1024)
+    
+    print('Received from OpenV2G Server: ', repr(data1))
+    
+    sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM) # TCP
+    sock.connect((GLOBALHOST, GLOBALPORT2, 0, 3))
+    print("Connected to CANoe");
+    time.sleep(2)
+    print("Sending Session Setup Message to CANoe..");
+    
+    bufferSessSetup = bytes(data1)
+    sock.sendall(bufferSessSetup)
+    
+    print ("-----")
+    print ("-----")
+    print ("-----")
+    
+    while True:
+        data, addr = sock.recvfrom(2048) # buffer size is 1024 bytes
+        
+        print ("received message from CANoe EVSE: ", data)
+    
     #time.sleep(2)
     #s.close()
