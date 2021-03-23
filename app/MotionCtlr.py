@@ -14,83 +14,66 @@ def init():
 
 
 def accelerate(tf):
-    init()
     print("Accelerating!")
-    gpio.output(7, False)
-    gpio.output(11, True)
-    gpio.output(13, True)
-    gpio.output(15, False)
-    time.sleep(1)
-    gpio.cleanup()
-
-#acceleration test
-#accelerate(3)      
-
-def reverse():
-    init()
-    print("Reversing!")
     gpio.output(7, True)
     gpio.output(11, False)
     gpio.output(13, False)
     gpio.output(15, True)
-    time.sleep(1)
+    time.sleep(tf)
+    gpio.cleanup()
+    
+
+def reverse(tf):
+    print("Reversing!")
+    gpio.output(7, False)
+    gpio.output(11, True)
+    gpio.output(13, True)
+    gpio.output(15, False)
+    time.sleep(tf)
     gpio.cleanup()
 
-#reverse testing
-#reverse(3)
 
-def rightTurn():
-    init()
+def rightTurn(tf):
     print("Right Turn!")
     gpio.output(7, False)
     gpio.output(11, True)
     gpio.output(13, False)
-    gpio.output(15, False)
-    time.sleep(1)
-
+    gpio.output(15, True)
+    time.sleep(tf)
     gpio.cleanup()
 
-# right turn test
-#rightTurn(2)
 
-def leftTurn():
-    init()
+def leftTurn(tf):
     print("Left Turn!")
     gpio.output(7, True)
     gpio.output(11, True)
     gpio.output(13, True)
     gpio.output(15, False)
-    time.sleep(1)
     gpio.cleanup()
 
-#left turning test
-#leftTurn(2)
 
-
-def pivotRight():
-    init()
-    print("Right Turn!")
+def rightPivot(tf):
+    print("Pivoting Right!")
     gpio.output(7, False)
     gpio.output(11, True)
     gpio.output(13, False)
     gpio.output(15, True)
-    time.sleep(1)
-
     gpio.cleanup()
 
-#pivotting right test
-#pivotRight(2)
     
-def pivotLeft():
-    init()
-    print("Right Turn!")
+def leftPivot(tf):
+    print("Pivoting Left!")
     gpio.output(7, True)
     gpio.output(11, False)
     gpio.output(13, True)
     gpio.output(15, False)
-    time.sleep(1)
     gpio.cleanup()
-
-#pivotting left test
-#pivotLeft(2)
-   
+    
+def brake(tf):
+    print("Stopping!")
+    gpio.output(7, False)
+    gpio.output(11, False)
+    gpio.output(13, False)
+    gpio.output(15, False)
+    time.sleep(tf)
+    gpio.cleanup()

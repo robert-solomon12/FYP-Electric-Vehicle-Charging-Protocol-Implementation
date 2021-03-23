@@ -34,28 +34,30 @@ def batteryLvlCounter():
 
 
 def key_input(event):
- 
-   print('Key pressed: ', event.char)
-   key_press = event.char
-   sleep_timer = 0.030
+    mtc.init()
+    print('Key pressed: ', event.char)
+    key_press = event.char
+    sleep_timer = 0.030
        
-   if key_press.lower() == 'w':
+    if key_press.lower() == 'w':
        mtc.accelerate(sleep_timer)
-   elif key_press.lower() == 's':
-       mtc.reverse(sleep_timer)
-   elif key_press.lower() == 'a':
+    elif key_press.lower() == 'a':
        mtc.leftTurn(sleep_timer)
-   elif key_press.lower() == 'd':
+    elif key_press.lower() == 's':
+       mtc.reverse(sleep_timer)
+    elif key_press.lower() == 'd':
        mtc.rightTurn(sleep_timer)
-   elif key_press.lower() == 's':
+    elif key_press.lower() == 'q':
        mtc.leftPivot(sleep_timer)
-   elif key_press.lower() == 'q':
-       mtc.leftPivot(sleep_timer)
-   elif key_press.lower() == 'e':
-       mtc.rightPivot(sleep_timer) 
-   elif key_press.lower() == 'v':
-       cs.ChargingSession.startSequence()
-       batteryLvlCounter()
+    elif key_press.lower() == 'e':
+       mtc.rightPivot(sleep_timer)
+    elif key_press.lower() == 'x':
+       mtc.brake(sleep_timer)
+    else:
+       pass
+   #elif key_press.lower() == 'v':
+       #cs.ChargingSession.startSequence()
+       #batteryLvlCounter()
 
 
 percent = StringVar()
@@ -90,6 +92,11 @@ left_Btn = Button(root, text="Steer Left", font="Railway", command=mtc.leftTurn)
 left_Btn.pack(side=LEFT,pady=20)
 
 
+# Brake Button
+brake_Btn = Button(root, text="Brake", font="Railway", command=mtc.brake)
+brake_Btn.pack(side=LEFT,pady=20)
+
+
 # Start Charge Btn
 
 # before calling the loop below, write function to initiate a TCP Connection and get status .....
@@ -98,25 +105,5 @@ charge_Btn = Button(root, text="Start Charge", font="Railway", command=batteryLv
 charge_Btn.pack(side=BOTTOM,pady=20)
 
 
-# Button tester initiate a connection with CANoe ....
-
-# stopCharge_Btn = Button(root, text="Stop Charge", font="Railway", command=batteryLvlCounter)
-# stopCharge_Btn.pack(side=BOTTOM,pady=20)
-
-
-# # Stop Charge Btn
-
-# stopCharge_Btn = Button(root, text="Stop Charge", font="Railway", command=batteryLvlCounter)
-# stopCharge_Btn.pack(side=BOTTOM,pady=20)
-
-
-# BUTTON TO TURN ON/OFF Robocar
-
-# charge_Btn = Button(root, text="ON/OFF", font="Railway", command=batteryLvlCounter)
-# charge_Btn.pack(side=BOTTOM,pady=20)
-
-
 root.bind('<KeyPress>', key_input)
 root.mainloop()
-
-# button = Button(window,text="Start Charge",cmd=batteryLvlCounter).pack()
