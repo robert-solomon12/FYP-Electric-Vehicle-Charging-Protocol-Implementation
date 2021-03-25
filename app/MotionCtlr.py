@@ -18,7 +18,7 @@ def accelerate(tf):
     gpio.output(7, True)
     gpio.output(11, False)
     gpio.output(13, False)
-    gpio.output(15, True)
+    gpio.output(15, False)
     time.sleep(tf)
     gpio.cleanup()
     
@@ -49,6 +49,7 @@ def leftTurn(tf):
     gpio.output(11, True)
     gpio.output(13, True)
     gpio.output(15, False)
+    time.sleep(tf)
     gpio.cleanup()
 
 
@@ -58,6 +59,7 @@ def rightPivot(tf):
     gpio.output(11, True)
     gpio.output(13, False)
     gpio.output(15, True)
+    time.sleep(tf)
     gpio.cleanup()
 
     
@@ -67,6 +69,7 @@ def leftPivot(tf):
     gpio.output(11, False)
     gpio.output(13, True)
     gpio.output(15, False)
+    time.sleep(tf)
     gpio.cleanup()
     
 def brake(tf):

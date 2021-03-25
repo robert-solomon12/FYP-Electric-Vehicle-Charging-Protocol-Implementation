@@ -1,7 +1,7 @@
 import time
 from tkinter import *
 from tkinter import ttk
-#from Socket import Socket as skt
+
 import MotionCtlr as mtc
 from ChargingSession import ChargingSession as cs
 root = Tk()
@@ -29,8 +29,6 @@ def batteryLvlCounter():
         root.update_idletasks()
 
 # Include tariff counter function and tariff pay info after charge here ....
-
-
 
 
 def key_input(event):
@@ -63,7 +61,6 @@ def key_input(event):
 percent = StringVar()
 finalText = StringVar()
 
-
 # Progress Bar
 batteryLvlChargeBar = ttk.Progressbar(root, orient=HORIZONTAL, length=600, mode='determinate')
 batteryLvlChargeBar.pack(pady=20)
@@ -71,30 +68,6 @@ batteryLvlChargeBar.pack(pady=20)
 # Charge Progress Label
 percentLabel = Label(root,textvariable=percent).pack()
 statusLabel = Label(root,textvariable=finalText).pack(pady=20)
-
-# Accelerate Button
-acc_Btn = Button(root, text="Accelerate", font="Railway", command=mtc.accelerate)
-acc_Btn.pack(pady=20)
-
-
-# Reverse Button
-rev_Btn = Button(root, text="Reverse", font="Railway", command=mtc.reverse)
-rev_Btn.pack(side=BOTTOM, pady=20)
-
-
-# Steer Right Button
-right_Btn = Button(root, text="Steer Right", font="Railway", command=mtc.rightTurn)
-right_Btn.pack(side=RIGHT,pady=20)
-
-
-# Steer Left Button
-left_Btn = Button(root, text="Steer Left", font="Railway", command=mtc.leftTurn)
-left_Btn.pack(side=LEFT,pady=20)
-
-
-# Brake Button
-brake_Btn = Button(root, text="Brake", font="Railway", command=mtc.brake)
-brake_Btn.pack(side=LEFT,pady=20)
 
 
 # Start Charge Btn

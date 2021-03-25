@@ -2599,7 +2599,7 @@ int requestHandler(char *buffer, int *new_socket)
 		}
 		
 		//int res = 
-		send(new_socket, buffer, strlen(buffer), 0 );
+		send(new_socket, buffer, *(stream1.pos)-1, 0 );
 		/*printf("RES: %d", res);
 		//if (res < 0)
 		//{

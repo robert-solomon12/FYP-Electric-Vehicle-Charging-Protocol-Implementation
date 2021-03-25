@@ -73,9 +73,9 @@ class SessionSetupReq(V2GMessage):
         
 print('V2G Message Details: ')
 
-#msg1 = SessionSetupReq([0x01,0x00,0x00, 0x00,0x00,0x00,0x00,0x00,0x00],[0x02,0x00,0x00,0x00,0x00,0x01])
+msg1 = SessionSetupReq([0x01,0x00,0x00, 0x00,0x00,0x00,0x00,0x00,0x00],[0x02,0x00,0x00,0x00,0x00,0x01])
 
-msg1 = SessionSetupReq('100000000','020001')    
+#msg1 = SessionSetupReq('100000000','020001')    
 
 
 time.sleep(2)
@@ -83,7 +83,7 @@ time.sleep(2)
 buffer1 = msg1.headerSessionId + msg1.evccid
 
 time.sleep(2)
-b = bytes(buffer1.encode('utf-8'))
+b = bytes(buffer1)
 print('Header SessionId: ',msg1.headerSessionId,'EVCCID: ',msg1.evccid)
 print('bytes: ',b)
 #print('hex format: ' b.hex())
@@ -111,7 +111,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     data1 = s.recv(1024)
     
     print('Received from OpenV2G Server: ', repr(data1))
-    
+    print('Length of data rec.: ',len(data1))
     sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM) # TCP
     sock.connect((GLOBALHOST, GLOBALPORT2, 0, 3))
     print("Connected to CANoe");
