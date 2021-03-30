@@ -15,8 +15,8 @@ def init():
     gpio.setup(15, gpio.OUT)
     
     # initializing sensors
-    gpio.setup(29,GPIO.IN) # left sensor
-    gpio.setup(31,GPIO.IN) # right sensor
+    gpio.setup(29,gpio.IN) # left sensor
+    gpio.setup(31,gpio.IN) # right sensor
     
     
 # turn on front left and rear left motors
