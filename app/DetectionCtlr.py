@@ -1,5 +1,7 @@
 #class DetectionCtl:
 
+import RPi.GPIO as gpio
+
 # initializing motors and sensors
 def init():
     # turning off warning messages
