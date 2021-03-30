@@ -1,4 +1,3 @@
-from __future__ import division
 import time
 import RPi.GPIO as GPIO
 
