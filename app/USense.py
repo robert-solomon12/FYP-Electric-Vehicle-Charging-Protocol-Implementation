@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-
+import time
 
 def distance(measure='cm'):
     
@@ -16,15 +16,15 @@ def distance(measure='cm'):
     time.sleep(0.00001)
     GPIO.output(TRIG,False)
     
-        while GPIO.input(ECHO)==0: #waiting until Echo pin is Low
+    while GPIO.input(ECHO)==0: #waiting until Echo pin is Low
         pulse_start=time.time()
     while GPIO.input(ECHO)==1: #waiting until Echo pin is High
         
         pulse_end=time.time() # keeping a record of the last time the Echo Pin was high (seconds)
-    pulse_duration=pulse_end-pulse_start
-    distance=pulse_duration*17150
-    
-    distance=round(distance,2) # rounding the distance to 2 decimal places
+        pulse_duration=pulse_end-pulse_start
+        distance=pulse_duration*17150
+        
+        distance=round(distance,2) # rounding the distance to 2 decimal places
         
     GPIO.cleanup()
     return distance
