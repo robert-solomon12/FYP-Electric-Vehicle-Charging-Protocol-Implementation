@@ -18,10 +18,10 @@ def accelerate(tf):
     gpio.output(7, True)
     gpio.output(11, False)
     gpio.output(13, False)
-    gpio.output(15, False)
+    gpio.output(15, True)
     time.sleep(tf)
     gpio.cleanup()
-    
+
 
 def reverse(tf):
     print("Reversing!")
@@ -33,28 +33,8 @@ def reverse(tf):
     gpio.cleanup()
 
 
-def rightTurn(tf):
-    print("Right Turn!")
-    gpio.output(7, False)
-    gpio.output(11, True)
-    gpio.output(13, False)
-    gpio.output(15, True)
-    time.sleep(tf)
-    gpio.cleanup()
-
-
 def leftTurn(tf):
     print("Left Turn!")
-    gpio.output(7, True)
-    gpio.output(11, True)
-    gpio.output(13, True)
-    gpio.output(15, False)
-    time.sleep(tf)
-    gpio.cleanup()
-
-
-def rightPivot(tf):
-    print("Pivoting Right!")
     gpio.output(7, False)
     gpio.output(11, True)
     gpio.output(13, False)
@@ -62,15 +42,16 @@ def rightPivot(tf):
     time.sleep(tf)
     gpio.cleanup()
 
-    
-def leftPivot(tf):
-    print("Pivoting Left!")
+
+def rightTurn(tf):
+    print("Right Turn!")
     gpio.output(7, True)
     gpio.output(11, False)
     gpio.output(13, True)
     gpio.output(15, False)
     time.sleep(tf)
     gpio.cleanup()
+
     
 def brake(tf):
     print("Stopping!")
