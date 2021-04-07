@@ -6,6 +6,7 @@ import time
        
     
 def init():
+    gpio.setwarnings(False)
     gpio.setmode(gpio.BOARD)
     gpio.setup(7, gpio.OUT)
     gpio.setup(11, gpio.OUT)
@@ -14,7 +15,6 @@ def init():
 
 
 def accelerate(tf):
-    print("Accelerating!")
     gpio.output(7, True)
     gpio.output(11, False)
     gpio.output(13, False)
@@ -24,7 +24,6 @@ def accelerate(tf):
 
 
 def reverse(tf):
-    print("Reversing!")
     gpio.output(7, False)
     gpio.output(11, True)
     gpio.output(13, True)
@@ -34,7 +33,6 @@ def reverse(tf):
 
 
 def leftTurn(tf):
-    print("Left Turn!")
     gpio.output(7, False)
     gpio.output(11, True)
     gpio.output(13, False)
@@ -44,7 +42,6 @@ def leftTurn(tf):
 
 
 def rightTurn(tf):
-    print("Right Turn!")
     gpio.output(7, True)
     gpio.output(11, False)
     gpio.output(13, True)
@@ -54,7 +51,15 @@ def rightTurn(tf):
 
     
 def brake(tf):
-    print("Stopping!")
+    gpio.output(7, False)
+    gpio.output(11, False)
+    gpio.output(13, False)
+    gpio.output(15, False)
+    time.sleep(tf)
+    gpio.cleanup()
+    
+def brak():
+    init()
     gpio.output(7, False)
     gpio.output(11, False)
     gpio.output(13, False)
