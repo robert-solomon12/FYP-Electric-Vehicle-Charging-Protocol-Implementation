@@ -3,11 +3,11 @@ from tkinter import *
 from tkinter import ttk
 
 import MotionCtlr as mtc
+import USense as us
 from ChargingSession import ChargingSession as cs
+import threading
 root = Tk()
 # root.geometry("600x500")
-
-
 
 # Battery level counter function
 
@@ -38,21 +38,25 @@ def key_input(event):
     sleep_timer = 0.030
        
     if key_press.lower() == 'w':
-       mtc.accelerate(sleep_timer)
+        print("Accelerating....")
+        mtc.accelerate(sleep_timer)
     elif key_press.lower() == 'a':
-       mtc.leftTurn(sleep_timer)
+        print("Steering Left....")
+        mtc.leftTurn(sleep_timer)
     elif key_press.lower() == 's':
-       mtc.reverse(sleep_timer)
+        print("Reversing....")
+        mtc.reverse(sleep_timer)
     elif key_press.lower() == 'd':
-       mtc.rightTurn(sleep_timer)
-    elif key_press.lower() == 'q':
-       mtc.leftPivot(sleep_timer)
-    elif key_press.lower() == 'e':
-       mtc.rightPivot(sleep_timer)
+        print("Steering Right....")
+        mtc.rightTurn(sleep_timer)
     elif key_press.lower() == 'x':
-       mtc.brake(sleep_timer)
+        print("Braking....")
+        threading.Thread(target=mtc.brake(sleep_timer).start())
+    elif key_press.lower() == 'o':
+        print("Activating Obstacle Avoidance....")
+        threading.Thread(target=us.activateObstacleAvoidance().start())
     else:
-       pass
+        mtc.brake(sleep_timer)
    #elif key_press.lower() == 'v':
        #cs.ChargingSession.startSequence()
        #batteryLvlCounter()
@@ -69,13 +73,14 @@ batteryLvlChargeBar.pack(pady=20)
 percentLabel = Label(root,textvariable=percent).pack()
 statusLabel = Label(root,textvariable=finalText).pack(pady=20)
 
-
-# Start Charge Btn
-
 # before calling the loop below, write function to initiate a TCP Connection and get status .....
 
 charge_Btn = Button(root, text="Start Charge", font="Railway", command=batteryLvlCounter)
 charge_Btn.pack(side=BOTTOM,pady=20)
+
+
+stopMotors_Btn = Button(root, text="Stop Motors", font="Railway", command=mtc.brak)
+stopMotors_Btn.pack(side=LEFT,pady=20)
 
 
 root.bind('<KeyPress>', key_input)
