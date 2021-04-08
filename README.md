@@ -12,3 +12,8 @@ The Robotic Car consists of a Raspberry Pi acting as the main processor of the s
 
 # Main Features of the Robotic Car include:
 
+- Obstactle-Avoidance Mode: 
+
+Under this mode the Robotic Car will be able to automatically detect obstacles ahead of it no matter which direction it is coming from with the ultrasonic sensors on the platform by sending waves and calculating the distance as Ultrasonic Sensor emit sound waves at a frequency too high for humans to hear. They then wait for the sound to be reflected back, calculating distance based on the time required. This will give the robot the ability to be autonomous. (make its own decisions) This mode only becomes available when the "O" Key is pressed on the Keyboard. The following UML Design illustrates the Operation.
+
+<img src="IMG/Obstacle-Avoidance-Operation.png" height="1700" width="900">
