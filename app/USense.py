@@ -63,7 +63,7 @@ def checkFrontView():
             if dis < 15:
                 print('Repeat! Detecting an object... too close...coming to a halt! Current Distance: ', dis, 'cm')
                 tf = 0.030
-                mtc.init
+                mtc.init()
                 mtc.brake(tf)
                 #sys.exit()
         
