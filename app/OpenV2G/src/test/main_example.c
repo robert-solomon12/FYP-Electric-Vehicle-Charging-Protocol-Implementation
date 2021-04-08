@@ -2635,8 +2635,6 @@ int main_example(int argc, char *argv[]) {
 	char buffer[BUFF_SIZE];
 	
 	
-	errn = charging2();
-	
 		
 	// Creating socket file descriptor 
 	if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) 
@@ -2701,33 +2699,6 @@ int main_example(int argc, char *argv[]) {
 	
 	return errn;
 }
-		
-		
-		
-	
-		
-		
-		
-		
-		
-		
-	//dereferencing the pointer stream1 
-	//printf("Address stored in pointer %d", *&stream1.pos);
-	
-	
-	// error check if position of stream1.pos in memory is equal to size of buffer defined as 15
-	//if((*stream1.pos) != sizeOfBuffer) {
-	//	errn = -1;
-	//	printf("Buffer in memory stream length does not match !\n");
-	//	return errn;
-	//} else {
-	//	for(i=0; i<buffer1size; i++) {
-	//		if(stream1.data[i] != sizeOfBuffer[i]) {
-	//			errn = -1;
-	//			printf("Buffer in memory stream does not match at position %d !\n", i);
-	//			return errn;
-	//		}
-	//	}
 
 
 
