@@ -71,6 +71,10 @@ def stopMotors():
 percent = StringVar()
 finalText = StringVar()
 
+
+my_label = Label(root, text='Battery Level:')
+my_label.pack(pady=20)
+
 # Progress Bar
 batteryLvlChargeBar = ttk.Progressbar(root, orient=HORIZONTAL, length=600, mode='determinate')
 batteryLvlChargeBar.pack(pady=20)
@@ -88,7 +92,7 @@ charge_Btn.pack(side=BOTTOM,pady=20)
 stopMotors_Btn = Button(root, text="Stop Motors", font="Railway", command=stopMotors)
 stopMotors_Btn.pack(side=LEFT,pady=20)
 
-my_label = Label(root, text='')
+my_label = Label(root, text='Please use Keyboard to control the Vehicle!')
 my_label.pack(pady=20)
 
 
