@@ -92,9 +92,26 @@ charge_Btn.pack(side=BOTTOM,pady=20)
 stopMotors_Btn = Button(root, text="Stop Motors", font="Railway", command=stopMotors)
 stopMotors_Btn.pack(side=LEFT,pady=20)
 
-my_label = Label(root, text='Please use Keyboard to control the Vehicle!')
-my_label.pack(pady=20)
+keyBoard_Hint_label = Label(root, text='Please use Keyboard to control the Vehicle!')
+keyBoard_Hint_label.pack(pady=10)
 
+keyBoard_W_Key_label = Label(root, text=' "W" Key = Accelerate')
+keyBoard_W_Key_label.pack(pady=10)
+
+keyBoard_A_Key_label = Label(root, text=' "A" Key = Steer Left')
+keyBoard_A_Key_label.pack(pady=10)
+
+keyBoard_S_Key_label = Label(root, text=' "S" Key = Reverse')
+keyBoard_S_Key_label.pack(pady=10)
+
+keyBoard_D_Key_label = Label(root, text=' "D" Key = Steer Right')
+keyBoard_D_Key_label.pack(pady=10)
+
+keyBoard_X_Key_label = Label(root, text=' "X" Key = Brake')
+keyBoard_X_Key_label.pack(pady=10)
+
+keyBoard_O_Key_label = Label(root, text=' "O" Key = Activate Obstacle Avoidance')
+keyBoard_O_Key_label.pack(pady=10)
 
 root.bind('<KeyPress>', key_input)
 root.mainloop()
