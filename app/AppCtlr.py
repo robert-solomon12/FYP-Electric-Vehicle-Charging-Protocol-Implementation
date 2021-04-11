@@ -60,7 +60,13 @@ def key_input(event):
    #elif key_press.lower() == 'v':
        #cs.ChargingSession.startSequence()
        #batteryLvlCounter()
-
+        
+        
+def stopMotors():
+    mtc.init()
+    mtc.stopM()
+    
+    
 
 percent = StringVar()
 finalText = StringVar()
@@ -79,8 +85,11 @@ charge_Btn = Button(root, text="Start Charge", font="Railway", command=batteryLv
 charge_Btn.pack(side=BOTTOM,pady=20)
 
 
-stopMotors_Btn = Button(root, text="Stop Motors", font="Railway", command=mtc.brak)
+stopMotors_Btn = Button(root, text="Stop Motors", font="Railway", command=stopMotors)
 stopMotors_Btn.pack(side=LEFT,pady=20)
+
+my_label = Label(root, text='')
+my_label.pack(pady=20)
 
 
 root.bind('<KeyPress>', key_input)
