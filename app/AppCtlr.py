@@ -92,7 +92,7 @@ charge_Btn.pack(side=BOTTOM,pady=20)
 stopMotors_Btn = Button(root, text="Stop Motors", font="Railway", command=stopMotors)
 stopMotors_Btn.pack(side=LEFT,pady=20)
 
-keyBoard_Hint_label = Label(root, text='Please use Keyboard to control the Vehicle!')
+keyBoard_Hint_label = Label(root, text='Please use Keyboard keys to control Vehicle options!')
 keyBoard_Hint_label.pack(pady=10)
 
 keyBoard_W_Key_label = Label(root, text=' "W" Key = Accelerate')
