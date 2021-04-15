@@ -59,10 +59,17 @@ def brake(tf):
     gpio.cleanup()
     
 def brak():
-    init()
     gpio.output(7, False)
     gpio.output(11, False)
     gpio.output(13, False)
     gpio.output(15, False)
     time.sleep(tf)
+    gpio.cleanup()
+    
+    
+def stopM():
+    gpio.output(7, False)
+    gpio.output(11, False)
+    gpio.output(13, False)
+    gpio.output(15, False)
     gpio.cleanup()
