@@ -3,11 +3,13 @@ from tkinter import *
 from tkinter import ttk
 
 import socket
-# import ChargingSession
+import ChargingSession as cs
+
 import MotionCtlr as mtc
 import USense as us
-# from ChargingSession import ChargingSession as cs
+
 import threading
+from threading import Thread
 
 
 root = Tk()
@@ -33,6 +35,11 @@ def batteryLvlCounter():
         percent.set(str(int((x/batteryLvl)*100))+"%")
         finalText.set(str(x)+"/"+str(batteryLvl)+" Charge Completed!")
         root.update_idletasks()
+        
+    
+def chargeThread():
+    Thread(target = batteryLvlCounter).start()
+    Thread(target = cs.startSequence).start()
 
 
 def key_input(event):
@@ -61,10 +68,8 @@ def key_input(event):
         us.activateObstacleAvoidance()
     else:
         mtc.brake(sleep_timer)
-   #elif key_press.lower() == 'v':
-       #cs.ChargingSession.startSequence()
-       #batteryLvlCounter()
-        
+
+
 
 percent = StringVar()
 finalText = StringVar()
@@ -78,9 +83,10 @@ percentLabel = Label(root,textvariable=percent).pack()
 statusLabel = Label(root,textvariable=finalText).pack(pady=20)
 
 
+
 # before calling the loop below, write function to initiate a TCP Connection and get status .....
 
-charge_Btn = Button(root, text="Start Charge", font="Railway", command=batteryLvlCounter)
+charge_Btn = Button(root, text="Start Charge", font="Railway", command=chargeThread)
 charge_Btn.pack(side=BOTTOM,pady=20)
 charge_Btn.configure(bg='#BD4D35')
 
@@ -93,6 +99,7 @@ keyBoard_Hint_label.configure(bg='grey')
 keyBoard_W_Key_label = Label(root, text=' "W" Key = Accelerate')
 keyBoard_W_Key_label.pack(pady=10)
 keyBoard_W_Key_label.configure(bg='grey')
+
 
 keyBoard_A_Key_label = Label(root, text=' "A" Key = Steer Left')
 keyBoard_A_Key_label.pack(pady=10)
@@ -120,5 +127,7 @@ keyBoard_O_Key_label.configure(bg='grey')
 
 root.bind('<KeyPress>', key_input)
 root.mainloop()
+
+
 
 
