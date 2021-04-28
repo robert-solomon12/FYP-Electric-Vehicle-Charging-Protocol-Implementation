@@ -2,21 +2,29 @@ import time
 from tkinter import *
 from tkinter import ttk
 
+import socket
+import ChargingSession as cs
+
 import MotionCtlr as mtc
 import USense as us
-from ChargingSession import ChargingSession as cs
+
 import threading
+from threading import Thread
+
+
 root = Tk()
-# root.geometry("600x500")
+root.geometry("600x500")
+root.title("Vehicle Dashboard") # Window Title
+root.configure(bg='grey')
+
+
 
 # Battery level counter function
-
 def batteryLvlCounter():
     batteryLvl = 15
     x = 0
     speed = 1
     tariffCounter = 0
-
 
     while(x<batteryLvl):
         time.sleep(1)
@@ -27,8 +35,11 @@ def batteryLvlCounter():
         percent.set(str(int((x/batteryLvl)*100))+"%")
         finalText.set(str(x)+"/"+str(batteryLvl)+" Charge Completed!")
         root.update_idletasks()
-
-# Include tariff counter function and tariff pay info after charge here ....
+        
+    
+def chargeThread():
+    Thread(target = batteryLvlCounter).start()
+    Thread(target = cs.startSequence).start()
 
 
 def key_input(event):
@@ -54,12 +65,10 @@ def key_input(event):
         threading.Thread(target=mtc.brake(sleep_timer).start())
     elif key_press.lower() == 'o':
         print("Activating Obstacle Avoidance....")
-        threading.Thread(target=us.activateObstacleAvoidance().start())
+        us.activateObstacleAvoidance()
     else:
         mtc.brake(sleep_timer)
-   #elif key_press.lower() == 'v':
-       #cs.ChargingSession.startSequence()
-       #batteryLvlCounter()
+
 
 
 percent = StringVar()
@@ -73,15 +82,48 @@ batteryLvlChargeBar.pack(pady=20)
 percentLabel = Label(root,textvariable=percent).pack()
 statusLabel = Label(root,textvariable=finalText).pack(pady=20)
 
+
+
 # before calling the loop below, write function to initiate a TCP Connection and get status .....
 
-charge_Btn = Button(root, text="Start Charge", font="Railway", command=batteryLvlCounter)
+charge_Btn = Button(root, text="Start Charge", font="Railway", command=chargeThread)
 charge_Btn.pack(side=BOTTOM,pady=20)
+charge_Btn.configure(bg='#BD4D35')
 
 
-stopMotors_Btn = Button(root, text="Stop Motors", font="Railway", command=mtc.brak)
-stopMotors_Btn.pack(side=LEFT,pady=20)
+keyBoard_Hint_label = Label(root, text='Please use Keyboard keys to control Vehicle options!')
+keyBoard_Hint_label.pack(pady=10)
+keyBoard_Hint_label.configure(bg='grey')
 
+
+keyBoard_W_Key_label = Label(root, text=' "W" Key = Accelerate')
+keyBoard_W_Key_label.pack(pady=10)
+keyBoard_W_Key_label.configure(bg='grey')
+
+
+keyBoard_A_Key_label = Label(root, text=' "A" Key = Steer Left')
+keyBoard_A_Key_label.pack(pady=10)
+keyBoard_A_Key_label.configure(bg='grey')
+
+
+keyBoard_S_Key_label = Label(root, text=' "S" Key = Reverse')
+keyBoard_S_Key_label.pack(pady=10)
+keyBoard_S_Key_label.configure(bg='grey')
+
+
+keyBoard_D_Key_label = Label(root, text=' "D" Key = Steer Right')
+keyBoard_D_Key_label.pack(pady=10)
+keyBoard_D_Key_label.configure(bg='grey')
+
+
+keyBoard_X_Key_label = Label(root, text=' "X" Key = Brake')
+keyBoard_X_Key_label.pack(pady=10)
+keyBoard_X_Key_label.configure(bg='grey')
+
+
+keyBoard_O_Key_label = Label(root, text=' "O" Key = Activate Obstacle Avoidance')
+keyBoard_O_Key_label.pack(pady=10)
+keyBoard_O_Key_label.configure(bg='grey')
 
 root.bind('<KeyPress>', key_input)
 root.mainloop()
