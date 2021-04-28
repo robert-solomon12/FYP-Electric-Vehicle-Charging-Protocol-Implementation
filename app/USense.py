@@ -63,10 +63,13 @@ def checkFrontView():
             if dis < 15:
                 print('Repeat! Detecting an object... too close...coming to a halt! Current Distance: ', dis, 'cm')
                 tf = 0.030
-                mtc.init
-                mtc.brake(tf)
-                #sys.exit()
-        
+                mtc.init()
+                mtc.brake(10)
+                return
+            return
+        return
+    return
+
         # main function routine to start the process of detection
 def initiateOA():
     tf = 0.030  # setting the timer to 30 milliseconds
@@ -93,6 +96,7 @@ def initiateOA():
             checkFrontView()
             mtc.init()
             mtc.rightTurn(tf)
+            
 
 def activateObstacleAvoidance():
     for z in range(10):
