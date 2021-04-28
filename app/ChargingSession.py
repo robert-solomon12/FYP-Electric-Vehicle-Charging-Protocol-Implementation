@@ -36,24 +36,24 @@ def startSequence():
     
     
     
-#     print('V2G Message Details: ')
-#     
-#     time.sleep(2)
-#     
-#     buffer = msgReq.protocolNamespace + msgReq.versionNumberMajor + msgReq.versionNumberMinor + msgReq.schemaID + msgReq.priority
-#     
-#     time.sleep(2)
-#     b = bytes(buffer)
-#     print('Header SessionId: ',msgReq.protocolNamespace,'Version Number Major: ',msgReq.versionNumberMajor,
-#           '\nVersion Number Minor: ',msgReq.versionNumberMinor, 'Schema ID: 'msgReq.schemaID, 'Priority: 'msgReq.priority)
-#     print('Length of bytestring: ',len(b))
-#     
-#     time.sleep(1)
+    
+    print('Supported App Protocol V2G Message Details: ')
+    
+    buffer = msgReq.protocolNamespace + msgReq.versionNumberMajor + msgReq.versionNumberMinor + msgReq.schemaID + msgReq.priority
+    time.sleep(2)
+    b = bytes(buffer)
+    print('Header SessionId: ',msgReq.protocolNamespace,'Version Number Major: ',msgReq.versionNumberMajor,
+          '\nVersion Number Minor: ',msgReq.versionNumberMinor, 'Schema ID: ',msgReq.schemaID, 'Priority: ',msgReq.priority)
+    print('Length of bytestring: ',len(b))
+    
+    time.sleep(1)
     
     
     
+    print('Session Setup V2G Message Details: ')
+  
     buffer1 = msgReq1.headerSessionId + msgReq1.evccid
-    
+    time.sleep(2)
     b1 = bytes(buffer1)
     print('Header SessionId: ',msgReq1.headerSessionId,'EVCCID: ',msgReq1.evccid)
     print('Length of bytestring: ',len(b1))
@@ -61,8 +61,10 @@ def startSequence():
     
 
 
+    print('Service Discovery V2G Message Details: ')
     buffer2 = msgReq2.headerSessionId + msgReq2.serviceScope + msgReq2.serviceCategory
     
+    time.sleep(2)
     b2 = bytes(buffer2)
     print('Header SessionId: ',msgReq2.headerSessionId,'Service Scope: ',msgReq2.serviceScope, 'Service Category: ',msgReq2.serviceCategory)
     print('Length of bytestring: ',len(b2))
@@ -70,12 +72,14 @@ def startSequence():
     
     
     
-#     buffer3 = msgReq3.headerSessionId + msgReq3.serviceId + msgReq3.selectedPaymentOption
-#     
-#     b3 = bytes(buffer3)
-#     print('Header SessionId: ',msgReq3.headerSessionId, 'Service Scope: ',msgReq3.serviceId, 'Selected Payment Option: ',msgReq3.selectedPaymentOption)
-#     print('Length of bytestring: ',len(b3))
-#     time.sleep(1)
+    print('Service Discovery V2G Message Details: ')
+    buffer3 = msgReq3.headerSessionId + msgReq3.serviceId + msgReq3.selectedPaymentOption
+    time.sleep(2)
+    
+    b3 = bytes(buffer3)
+    print('Header SessionId: ',msgReq3.headerSessionId, 'Service Scope: ',msgReq3.serviceId, 'Selected Payment Option: ',msgReq3.selectedPaymentOption)
+    print('Length of bytestring: ',len(b3))
+    time.sleep(1)
 
 
     # connect to CANoe for sending UDP Req. Message
@@ -86,6 +90,8 @@ def startSequence():
 
     # connect to OpenV2G Server
     tcpsock.connect((LOCALHOST, LOCALPORT))
+    
+    
     
     
 
