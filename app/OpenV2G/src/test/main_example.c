@@ -584,7 +584,8 @@ static int powerDelivery2(struct iso2EXIDocument* exiIn, struct iso2EXIDocument*
 
 	exiOut->V2G_Message.Body.PowerDeliveryRes.EVSEProcessing = iso2EVSEProcessingType_Ongoing_WaitingForCustomerInteraction;
 
-	return 0;
+	return 0
+	
 }
 
 
@@ -1755,9 +1756,6 @@ static int preCharge1(struct iso1EXIDocument* exiIn, struct iso1EXIDocument* exi
 }
 
 
-
-
-
 static int create_response_message1(struct iso1EXIDocument* exiIn, struct iso1EXIDocument* exiOut) {
 	int errn = ERROR_UNEXPECTED_REQUEST_MESSAGE;
 
@@ -1877,9 +1875,9 @@ static int charging1()
 	exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytes[0] = 10;
 
 	printf("EV side: call EVSE sessionSetup");
-
+	
 	errn = request_response1(&exiIn, &exiOut);
-
+	
 	if(errn == 0) {
 		/* check, if this is the right response message */
 		if(exiOut.V2G_Message.Body.SessionSetupRes_isUsed) {
@@ -1902,12 +1900,12 @@ static int charging1()
 
 	/*********************************
 	 * ServiceDetails *
-	 *********************************/
+	*********************************/
 	init_iso1BodyType(&exiIn.V2G_Message.Body);
 	exiIn.V2G_Message.Body.ServiceDetailReq_isUsed = 1u;
-
+	
 	init_iso1ServiceDetailReqType(&exiIn.V2G_Message.Body.ServiceDetailReq);
-
+	
 	exiIn.V2G_Message.Body.ServiceDetailReq.ServiceID = 22; /* Value Added Server ID */
 
 	printf("EV side: call EVSE ServiceDetail \n");
@@ -2532,16 +2530,23 @@ int requestHandler(char *buffer, int *new_socket)
 	stream1.pos = &pos1;
 	
 	
-
 	
 	//struct iso2EXIDocument exiOut;
 	
 	int MSG_SessionSetupReq = 1;
-	printf("Request function called....\n");
+	//printf("Request function called....\n");
 	if ((buffer[0] =! MSG_SessionSetupReq))
 	{
 		perror("Not a request message!\n");
 	}
+	
+	
+	int MSG_ServiceDiscoveryReq = 2;
+	if ((buffer[0] =! MSG_ServiceDiscoveryReq))
+	{
+		perror("Not a request message!\n");
+	}
+
 	
 	/* setup header information */
 		init_iso2EXIDocument(&exiIn);
@@ -2559,9 +2564,9 @@ int requestHandler(char *buffer, int *new_socket)
 		exiIn.V2G_Message.Header.SessionID.bytesLen = 9;
 		exiIn.V2G_Message.Header.Signature_isUsed = 0u;
 			
-				
+			
 		/************************
-		 * sessionSetup *
+		 * sessionSetup Request*
 		 ************************/
 		 /* setting up body information */
 		init_iso2BodyType(&exiIn.V2G_Message.Body);
@@ -2575,11 +2580,101 @@ int requestHandler(char *buffer, int *new_socket)
 		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytes[5] = buffer[15];
 		exiIn.V2G_Message.Body.SessionSetupReq.EVCCID.bytesLen = 6;
 		
+		/* EV side calling serialize function */
+		errn = serialize2EXI2Stream(&exiIn, &stream1);
+		
+		
+				
+		
+		/*******************************************
+		* serviceDiscovery Request*
+		*******************************************/
+		init_iso2BodyType(&exiIn.V2G_Message.Body);
+		exiIn.V2G_Message.Body.ServiceDiscoveryReq_isUsed = 1u;
+		init_iso2ServiceDiscoveryReqType(&exiIn.V2G_Message.Body.ServiceDiscoveryReq); 
+		exiIn.V2G_Message.Body.ServiceDiscoveryReq.SupportedServiceIDs.ServiceID.array[0] = buffer[10];
+		exiIn.V2G_Message.Body.ServiceDiscoveryReq.SupportedServiceIDs.ServiceID.array[1] = buffer[11];
+		exiIn.V2G_Message.Body.ServiceDiscoveryReq.SupportedServiceIDs.ServiceID.array[2] = buffer[12];
+		exiIn.V2G_Message.Body.ServiceDiscoveryReq.SupportedServiceIDs.ServiceID.array[3] = buffer[13];
+		exiIn.V2G_Message.Body.ServiceDiscoveryReq.SupportedServiceIDs.ServiceID.array[4] = buffer[14];
+		exiIn.V2G_Message.Body.ServiceDiscoveryReq.SupportedServiceIDs.ServiceID.array[5] = buffer[15];
+		exiIn.V2G_Message.Body.ServiceDiscoveryReq.SupportedServiceIDs.ServiceID.array[6] = buffer[16];
+		exiIn.V2G_Message.Body.ServiceDiscoveryReq.SupportedServiceIDs.ServiceID.array[7] = buffer[17];
+		exiIn.V2G_Message.Body.ServiceDiscoveryReq.SupportedServiceIDs.ServiceID.array[8] = buffer[18];
+		exiIn.V2G_Message.Body.ServiceDiscoveryReq.SupportedServiceIDs.ServiceID.array[9] = buffer[19];
+		exiIn.V2G_Message.Body.ServiceDiscoveryReq.SupportedServiceIDs.ServiceID.array[10] = buffer[20];
+		exiIn.V2G_Message.Body.ServiceDiscoveryReq.SupportedServiceIDs.ServiceID.array[11] = buffer[21];
+		exiIn.V2G_Message.Body.ServiceDiscoveryReq.SupportedServiceIDs.ServiceID.array[12] = buffer[22];
+		exiIn.V2G_Message.Body.ServiceDiscoveryReq.SupportedServiceIDs.ServiceID.array[13] = buffer[23];
+		exiIn.V2G_Message.Body.ServiceDiscoveryReq.SupportedServiceIDs.ServiceID.arrayLen = 14;
+		
+		
+		
+		
+		
+		
+	/*******************************************
+	* ServicePaymentSelection *
+	*******************************************/
+	
+	/**init_iso2BodyType(&exiIn.V2G_Message.Body);
+	exiIn.V2G_Message.Body.PaymentServiceSelectionReq_isUsed = 1u;
+	init_iso2PaymentServiceSelectionReqType(&exiIn.V2G_Message.Body.PaymentServiceSelectionReq);
+
+	exiIn.V2G_Message.Body.PaymentServiceSelectionReq.SelectedPaymentOption = iso2paymentOptionType_ExternalPayment;
+	exiIn.V2G_Message.Body.PaymentServiceSelectionReq.SelectedVASList_isUsed = 0u;
+	exiIn.V2G_Message.Body.PaymentServiceSelectionReq.SelectedEnergyTransferService.ServiceID.bytes[0] = buffer[10];
+	
+	exiIn.V2G_Message.Body.PaymentServiceSelectionReq.SelectedEnergyTransferService.ParameterSetID = buffer[];
+	exiIn.V2G_Message.Body.PaymentServiceSelectionReq.SelectedEnergyTransferService.ParameterSetID = 4;
+	exiIn.V2G_Message.Body.PaymentServiceSelectionReq.SelectedEnergyTransferService.ParameterSetID = 4;
+	exiIn.V2G_Message.Body.PaymentServiceSelectionReq.SelectedEnergyTransferService.ParameterSetID = 4;
+	exiIn.V2G_Message.Body.PaymentServiceSelectionReq.SelectedEnergyTransferService.ParameterSetID = 4;
+
+	//printf("EV side: call EVSE ServicePaymentSelection \n");**/
+
+	
+
+
+	/**********************************
+	 * PaymentDetails *
+	 **********************************/
+	init_iso2BodyType(&exiIn.V2G_Message.Body);
+	exiIn.V2G_Message.Body.PaymentDetailsReq_isUsed = 1u;
+
+	init_iso2PaymentDetailsReqType(&exiIn.V2G_Message.Body.PaymentDetailsReq);
+
+	exiIn.V2G_Message.Body.PaymentDetailsReq.eMAID.characters[0] = 1;
+	exiIn.V2G_Message.Body.PaymentDetailsReq.eMAID.characters[1] = 123;
+	exiIn.V2G_Message.Body.PaymentDetailsReq.eMAID.charactersLen =2;
+
+	exiIn.V2G_Message.Body.PaymentDetailsReq.ContractSignatureCertChain.Certificate.bytes[0] = 'C';
+	exiIn.V2G_Message.Body.PaymentDetailsReq.ContractSignatureCertChain.Certificate.bytes[1] = 'e';
+	exiIn.V2G_Message.Body.PaymentDetailsReq.ContractSignatureCertChain.Certificate.bytesLen = 2;
+	exiIn.V2G_Message.Body.PaymentDetailsReq.ContractSignatureCertChain.SubCertificates_isUsed = 1u;
+	exiIn.V2G_Message.Body.PaymentDetailsReq.ContractSignatureCertChain.SubCertificates.Certificate.array[0].bytes[0] = 'S';
+	exiIn.V2G_Message.Body.PaymentDetailsReq.ContractSignatureCertChain.SubCertificates.Certificate.array[0].bytes[1] = 'u';
+	exiIn.V2G_Message.Body.PaymentDetailsReq.ContractSignatureCertChain.SubCertificates.Certificate.array[0].bytesLen = 2;
+	exiIn.V2G_Message.Body.PaymentDetailsReq.ContractSignatureCertChain.SubCertificates.Certificate.array[1].bytes[0] = 'S';
+	exiIn.V2G_Message.Body.PaymentDetailsReq.ContractSignatureCertChain.SubCertificates.Certificate.array[1].bytes[1] = 'u';
+	exiIn.V2G_Message.Body.PaymentDetailsReq.ContractSignatureCertChain.SubCertificates.Certificate.array[1].bytes[2] = '2';
+	exiIn.V2G_Message.Body.PaymentDetailsReq.ContractSignatureCertChain.SubCertificates.Certificate.array[1].bytesLen = 3;
+	exiIn.V2G_Message.Body.PaymentDetailsReq.ContractSignatureCertChain.SubCertificates.Certificate.arrayLen =2;
+	exiIn.V2G_Message.Body.PaymentDetailsReq.ContractSignatureCertChain.Id_isUsed = 1u;
+	exiIn.V2G_Message.Body.PaymentDetailsReq.ContractSignatureCertChain.Id.charactersLen = 2;
+	exiIn.V2G_Message.Body.PaymentDetailsReq.ContractSignatureCertChain.Id.characters[0] = 'I';
+	exiIn.V2G_Message.Body.PaymentDetailsReq.ContractSignatureCertChain.Id.characters[0] = 'd';
+
+	printf("EV side: call EVSE ServiceDetail \n");
+		
+		
+		
+		
 		
 		
 		/* EV side calling serialize function */
 		errn = serialize2EXI2Stream(&exiIn, &stream1);
-		
+				
 		
 		//looping from index 1 to pos1 which is length of data in memory
 		for(i=0;  i<(*(stream1.pos));i++)
@@ -2590,28 +2685,19 @@ int requestHandler(char *buffer, int *new_socket)
 		
 		
 		//printing buffer array in to hex form..
-		printf("Copied buffer stream1 data array is:\n");
+		printf("\nProcessing Request......\n");
+		printf("Copied buffer stream1 EXI Data array is:\n");
 		for(i=0;i<(*(stream1.pos));i++)
 		{
 			printf("%02X ",buffer[i]);
-		    printf("\n");
-		    
+			
 		}
 		
-		//int res = 
+		
 		send(new_socket, buffer, *(stream1.pos)-1, 0 );
-		/*printf("RES: %d", res);
-		//if (res < 0)
-		//{
-			perror("Send");
-			break;
-		}
-		*/
 		
-		//close(new_socket);
-		return errn;	
-}
-	
+		return errn;
+	}
 
 
 
@@ -2634,8 +2720,6 @@ int main_example(int argc, char *argv[]) {
 	int addrlen = sizeof(address); 
 	char buffer[BUFF_SIZE];
 	
-	
-	errn = charging2();
 	
 		
 	// Creating socket file descriptor 
@@ -2689,45 +2773,18 @@ int main_example(int argc, char *argv[]) {
 	//int c = 1;
 	while(1)
 	{
-		
-		
-		
+		// message buffer received here ..
 		valread = recv(new_socket, buffer, BUFF_SIZE, 0);
-		printf("Current buffer: %s\n", buffer );
+		
+		
+		//printf("Current buffer: %s\n", buffer );
 		
 		
 		errn = requestHandler(buffer, new_socket);
 	}
 	
 	return errn;
-}
-		
-		
-		
-	
-		
-		
-		
-		
-		
-		
-	//dereferencing the pointer stream1 
-	//printf("Address stored in pointer %d", *&stream1.pos);
-	
-	
-	// error check if position of stream1.pos in memory is equal to size of buffer defined as 15
-	//if((*stream1.pos) != sizeOfBuffer) {
-	//	errn = -1;
-	//	printf("Buffer in memory stream length does not match !\n");
-	//	return errn;
-	//} else {
-	//	for(i=0; i<buffer1size; i++) {
-	//		if(stream1.data[i] != sizeOfBuffer[i]) {
-	//			errn = -1;
-	//			printf("Buffer in memory stream does not match at position %d !\n", i);
-	//			return errn;
-	//		}
-	//	}
+	}
 
 
 
