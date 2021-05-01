@@ -1,3 +1,10 @@
+# Robert Solomon
+# College: Waterford Institute of Technology
+# Final Year (Year 4)
+# Email: robertsolomon12@outlook.com
+
+
+
 // Server side C/C++ program to demonstrate Socket programming 
 #include <unistd.h> 
 #include <stdio.h> 
