@@ -1,4 +1,6 @@
-#class DetectionCtl:
+# Robert Solomon
+# College: Waterford Institute of Technology
+# Final Year (Year 4)
 
 import RPi.GPIO as gpio
 
