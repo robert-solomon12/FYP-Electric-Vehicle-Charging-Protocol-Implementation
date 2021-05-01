@@ -1,3 +1,9 @@
+# Robert Solomon
+# College: Waterford Institute of Technology
+# Final Year (Year 4)
+# Email: robertsolomon12@outlook.com
+
+
 import socket
 import time 
 
