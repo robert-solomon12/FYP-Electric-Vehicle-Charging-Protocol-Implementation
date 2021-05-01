@@ -127,7 +127,3 @@ keyBoard_O_Key_label.configure(bg='grey')
 
 root.bind('<KeyPress>', key_input)
 root.mainloop()
-
-
-
-

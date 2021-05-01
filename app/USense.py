@@ -100,4 +100,4 @@ def initiateOA():
 
 def activateObstacleAvoidance():
     for z in range(10):
-        initiateOA()     
+        initiateOA()
