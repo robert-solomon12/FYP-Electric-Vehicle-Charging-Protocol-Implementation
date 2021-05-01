@@ -1,3 +1,8 @@
+# Robert Solomon
+# College: Waterford Institute of Technology
+# Final Year (Year 4)
+# Email: robertsolomon12@outlook.com
+
 import socket
 
 addrs = [('fe80::292f:2eda:aa83:cf63%wlan0', 15118),            
