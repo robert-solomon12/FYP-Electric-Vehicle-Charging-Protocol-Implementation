@@ -6,7 +6,6 @@ import RPi.GPIO as GPIO
 import time
 import random
 import MotionCtlr as mtc
-import sys
 
 def distance(measure='cm'):
     try:
