@@ -9,6 +9,7 @@ The Electric Vehicle Supply Equipment (EVSE) is run in Vector's CANoe Software a
 
 The Robotic Car consists of a Raspberry Pi acting as the main processor of the system. The role of the Pi is to handle both the data being sent and received to and from the EVSE. It is supported by a library called OpenV2G which is an open source project used by industry experts and developers for implementing the functionalities of the ISO IEC 15118 Specifications. Its purpose for this project is to assist in encoding and decoding the v2g messages transmitted to/from the EVSE Interface in CANoe so it can be understood. The functionalities of the Robotic Car is managed by a software developed in the Raspberry Pi which allows the vehicle actively move around and perform manuevres manually controlled by the user or autonomously via the Ultrasonic Sensors or by Line tracking detection.
 
+<img src="IMG/Robotic-Car.jpg" height="700" width="1000">
 
 # Main Features of the Robotic Car include:
 
