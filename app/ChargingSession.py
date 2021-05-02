@@ -25,27 +25,13 @@ def startSequence():
     sock = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM) # UDP
 
     print ("1. Sending SECC Discovery Req. Message: ", MSG1)
-    
-    time.sleep(2)
     sock.sendto(buffer, (GLOBALHOST, GLOBALPORT1,0,0));
-    
+    time.sleep(1)
+    data = sock.recv(2048)
+    print('Received from CANoe Server: ', repr(data))
+    print("----")
     time.sleep(1)
     print ("-----")
-    print ("-----")
-    print ("-----")
-    
-    
-    
-    
-    print('Supported App Protocol V2G Message Details: ')
-    
-    buffer = msgReq.protocolNamespace + msgReq.versionNumberMajor + msgReq.versionNumberMinor + msgReq.schemaID + msgReq.priority
-    time.sleep(2)
-    b = bytes(buffer)
-    print('Header SessionId: ',msgReq.protocolNamespace,'Version Number Major: ',msgReq.versionNumberMajor,
-          '\nVersion Number Minor: ',msgReq.versionNumberMinor, 'Schema ID: ',msgReq.schemaID, 'Priority: ',msgReq.priority)
-    print('Length of bytestring: ',len(b))
-    
     time.sleep(1)
     
     
@@ -91,11 +77,6 @@ def startSequence():
     # connect to OpenV2G Server
     tcpsock.connect((LOCALHOST, LOCALPORT))
     
-    
-    
-    
-
-    print('Connected to V2G Server on port',LOCALPORT)
     time.sleep(1)
     print('Sending Session Setup Request Message to OpenV2G!')
     time.sleep(1)
@@ -103,7 +84,7 @@ def startSequence():
     time.sleep(2)
     
     
-    data1 = tcpsock.recv(1024)
+    data1 = tcpsock.recv(2048)
     print('Received from OpenV2G Server: ', repr(data1))
     
     
@@ -115,7 +96,7 @@ def startSequence():
     tcpsock.sendall(b2) 
     time.sleep(2)
     
-    data2 = tcpsock.recv(1024)
+    data2 = tcpsock.recv(2048)
     print('Received from OpenV2G Server: ', repr(data2))
     
     
@@ -124,9 +105,3 @@ def startSequence():
     time.sleep(1)
     print('Sending Payment Selection Request Message to OpenV2G!')
     time.sleep(1)
-    tcpsock.sendall(b3) 
-    time.sleep(2)
-    
-    
-    data3 = tcpsock.recv(1024)
-    print('Received from OpenV2G Server: ', repr(data3))
