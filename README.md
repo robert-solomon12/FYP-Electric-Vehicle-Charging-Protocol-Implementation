@@ -49,4 +49,5 @@ Under this scenario the Robotic Car will be able to detect and differentiate the
 
 
 
-<br>Contact Info:</br> [robertsolomon12@outlook.com](mailto:robertsolomon12@outlook.com)
+# Contact Info:
+### [robertsolomon12@outlook.com](mailto:robertsolomon12@outlook.com)
