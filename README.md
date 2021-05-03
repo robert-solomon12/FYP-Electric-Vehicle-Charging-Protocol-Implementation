@@ -46,3 +46,7 @@ Under this scenario the Robotic Car will be able to detect and differentiate the
 ###### Note: This feature was not added to the Project due to time considerations.
 
 <img src="IMG/Line-Tracking-Operation.png" height="1700" width="700">
+
+
+
+<br>Contact Info:</br> [robertsolomon12@outlook.com](mailto:robertsolomon12@outlook.com)
