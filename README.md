@@ -43,7 +43,7 @@ Under this scenario the Robotic Car will be able to automatically detect obstacl
 
 Under this scenario the Robotic Car will be able to detect and differentiate the amount of reflection between the line you are trying to follow and the adjacent surface of the floor using a Line Tracking Module offered by most manufacturers (or a TCRT 5000 IR Sensor) . The line can either be more or less reflective than the surrounding surface, what is important is that there is a difference which can be detected. Below is a diagram I designed to illustrate the logic behind the sensor. This will give the robot the ability to be autonomous while following the lines. The following UML Design illustrates the Operation.
 
-###### Note: This feature was not added to the Project due to time considerations.
+###### Note: This feature was not added to the Project due to time considerations (Test scripts were written to implement this functionality and experiment with the sensors).
 
 <img src="IMG/Line-Tracking-Operation.png" height="1700" width="700">
 
