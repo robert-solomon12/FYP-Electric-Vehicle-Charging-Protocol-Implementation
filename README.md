@@ -50,6 +50,6 @@ Under this scenario the Robotic Car will be able to detect and differentiate the
 <img src="IMG/Line-Tracking-Operation.png" height="1700" width="700">
 
 
+<br> Should you have any problems, don't hesitate to contact me on my email at:</br> [robertsolomon12@outlook.com](mailto:robertsolomon12@outlook.com)
+<br>or if you find a bug </br>[open up an issue here](https://github.com/robert-solomon12/FYP-Electric-Vehicle-Charging-Protocol-Implementation/issues)
 
-# Contact Info:
-### [robertsolomon12@outlook.com](mailto:robertsolomon12@outlook.com)
